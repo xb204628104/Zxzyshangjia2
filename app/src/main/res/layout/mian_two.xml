@@ -3,9 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <ProgressBar
+        android:id="@+id/two_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:indeterminateOnly="false"
+        android:max="100"/>
 
     <WebView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></WebView>
+        android:layout_height="match_parent"
+        android:id="@+id/two_webview"></WebView>
 
 </LinearLayout>

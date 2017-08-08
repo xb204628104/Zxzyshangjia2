@@ -121,6 +121,7 @@
                 android:background="#ffffff"
                 android:orientation="horizontal">
                 <LinearLayout
+                    android:id="@+id/one_ll_mingxi"
                     android:gravity="center"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -143,6 +144,7 @@
                     android:layout_height="70dp"
                     android:background="#91000000"></View>
                 <LinearLayout
+                    android:id="@+id/one_ll_tixian"
                     android:gravity="center"
                     android:layout_width="0dp"
                     android:layout_weight="1"

@@ -21,6 +21,7 @@
         <activity android:name=".activity.Aty_Xb_Possword"></activity>
         <activity android:name=".activity.Aty_Xb_Pingjia"></activity>
         <activity android:name=".activity.Aty_Xb_Draw"></activity>
+        <activity android:name=".activity.Aty_Xb_Detail"></activity>
     </application>
 
 </manifest>
