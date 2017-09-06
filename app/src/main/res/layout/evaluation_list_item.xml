@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/headimg_evaluation_item_iv"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="12dp"
+            android:src="@mipmap/evaluation"
+            android:scaleType="fitXY"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:id="@+id/name_evaluation_item_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="昵称"
+                    android:layout_marginTop="10dp"
+                    android:textSize="14sp"
+                    android:textColor="#333"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="3dp"
+                    />
+                <TextView
+                    android:id="@+id/time_evaluation_item_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="right|center_vertical"
+                    android:text="09/05 17:22"
+                    android:layout_marginRight="10dp"
+                    />
+            </LinearLayout>
+            <RatingBar
+                android:id="@+id/star_evaluation_item_rtb"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:numStars="5"
+                android:rating="3.5"
+                android:isIndicator="false"
+                style="@style/foodRatingBar"
+                />
+            <TextView
+                android:id="@+id/count_evaluation_item_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="挺好的挺好的挺好的"
+                android:textSize="12sp"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp"
+                android:textColor="#333"
+                android:layout_marginRight="8dp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+
+
+
+
+</LinearLayout>

@@ -9,9 +9,25 @@
         android:layout_height="20dp"
         android:indeterminateOnly="false"
         android:max="100"/>
-    <WebView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/draw_webview"></WebView>
+        android:layout_height="match_parent">
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/draw_webview">
+
+        </WebView>
+        <ImageView
+            android:id="@+id/service_iv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/service"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="100dp"
+            android:visibility="visible"
+            />
+    </FrameLayout>
+
 
 </LinearLayout>
