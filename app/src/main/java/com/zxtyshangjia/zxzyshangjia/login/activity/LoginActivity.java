@@ -74,6 +74,7 @@ public class LoginActivity extends Activity {
                     SpUtils.getInstance(LoginActivity.this).save("account", account);
                     SpUtils.getInstance(LoginActivity.this).save("is_readonly", loginDateBean.data.is_readonly);
                     SpUtils.getInstance(LoginActivity.this).save("shop_id",loginDateBean.data.shop_id);
+                    SpUtils.getInstance(LoginActivity.this).save("index",0);
                     Log.e("**********",account);
                     Log.e("**********",loginDateBean.data.is_readonly);
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));

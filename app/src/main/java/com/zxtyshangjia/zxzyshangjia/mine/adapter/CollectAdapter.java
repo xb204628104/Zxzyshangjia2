@@ -71,9 +71,11 @@ public class CollectAdapter extends BaseAdapter {
         holder.mName.setText(item.nick_name);
         /* 时间 因为时间是毫秒数 所以这里要转成yyyy-MM-dd格式的 */
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date2 = new Date();
-        date2.setTime(Long.parseLong(item.ctime));
-        dateFormat.format(date2);
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd");
+
+        Date date2 = new Date(Long.parseLong(item.ctime) * 1000);
+        String date = dateFormat.format(date2);
+        holder.mtime.setText(date);
         return convertView;
     }
 

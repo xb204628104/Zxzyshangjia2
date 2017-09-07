@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"></activity>
-        <activity android:name=".control.activity.WithdrawalsActivity"></activity>
+        <activity android:name=".control.activity.WithdrawActivity"></activity>
         <activity android:name=".control.activity.MessagelistActivity"></activity>
         <activity android:name=".mine.activity.MySetActivity"></activity>
         <activity android:name=".mine.activity.MyCollectActivity"></activity>
@@ -31,6 +31,7 @@
         <activity android:name=".login.activity.ForgetPasswordActivity"></activity>
         <activity android:name=".control.activity.BindAccountActivity"></activity>
         <activity android:name=".control.activity.AddAccountActivity"></activity>
+        <activity android:name=".control.activity.WithdrawListActivity"></activity>
     </application>
 
 </manifest>

@@ -118,5 +118,20 @@ public class Api {
      */
     public static final String BINDPAY = BASE_URL + "/Merchant/bindPay";
 
+    /**
+     * 删除支付宝 或者微信
+     */
+    public static final String DELECT_BIND = BASE_URL +"/Merchant/delBind";
+
+    /**
+     * 提现
+     */
+    public static final String WITHDRAW = BASE_URL+ "/Merchant/withDraw";
+
+    /**
+     * 提现列表
+     */
+    public static final String WITHDRAW_LIST = BASE_URL + "/Pool/withList";
+
 
 }

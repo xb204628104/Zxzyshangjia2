@@ -25,7 +25,7 @@ import com.zxtyshangjia.zxzyshangjia.commen.utils.SpUtils;
 import com.zxtyshangjia.zxzyshangjia.commen.utils.ToastUtil;
 import com.zxtyshangjia.zxzyshangjia.control.activity.DetailActivity;
 import com.zxtyshangjia.zxzyshangjia.control.activity.MessagelistActivity;
-import com.zxtyshangjia.zxzyshangjia.control.activity.WithdrawalsActivity;
+import com.zxtyshangjia.zxzyshangjia.control.activity.WithdrawActivity;
 import com.zxtyshangjia.zxzyshangjia.control.bean.AboutEarningBean;
 import com.zxtyshangjia.zxzyshangjia.control.bean.MerChantIncomeBean;
 import com.zxtyshangjia.zxzyshangjia.login.bean.BaseBean;
@@ -218,7 +218,7 @@ public class OneMyfragment extends Fragment {
 
             } else if (v.getId() == mWithdrawLL.getId()) {
                 //提现  跳转提现页
-                startActivity(new Intent(getActivity().getApplicationContext(), WithdrawalsActivity.class));
+                startActivity(new Intent(getActivity().getApplicationContext(), WithdrawActivity.class));
 
             } else if (v.getId() == mMessageListFL.getId()) {
                 //消息列表  跳转消息列表页
