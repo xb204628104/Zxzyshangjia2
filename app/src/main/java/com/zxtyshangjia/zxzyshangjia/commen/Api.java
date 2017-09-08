@@ -133,5 +133,15 @@ public class Api {
      */
     public static final String WITHDRAW_LIST = BASE_URL + "/Pool/withList";
 
+    /**
+     * 我的账单明细
+     */
+    public static final String BILL_DETAIL = BASE_URL + "/Merchant/billList";
+
+    /**
+     * 修改提现的信息
+     */
+    public static final String EDITWITHDRAW = BASE_URL + "/Pool/editWith";
+
 
 }

@@ -16,41 +16,45 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="12dp">
+            android:paddingLeft="12dp"
+            android:paddingTop="2dp">
             <TextView
-                android:id="@+id/recording_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#999"
-                android:textSize="14sp"
-                android:text="9/7"
-                android:gravity="center_horizontal"/>
-            <TextView
-                android:id="@+id/is_turn_down"
+                android:id="@+id/detail_date_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#999"
+                android:textSize="12sp"
+                android:text="2017-08-27"
+                android:gravity="center_horizontal"/>
+            <TextView
+                android:id="@+id/detail_time_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/shape_bg"
-                android:text="已驳回"
+                android:gravity="center_horizontal"
+                android:text="11:28"
                 android:textColor="#fff"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingLeft="3dp"
-                android:paddingRight="3dp"
-                android:textSize="12sp"/>
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:textSize="11sp"
+                android:layout_marginBottom="2dp"/>
 
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
-        
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/zfb"
-            android:scaleType="fitXY"
-            />
+
+            <ImageView
+                android:id="@+id/my_head_img_iv"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/zfb"
+                android:scaleType="fitXY"
+                />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -59,7 +63,7 @@
             android:gravity="center_vertical"
             android:layout_marginLeft="10dp">
             <TextView
-                android:id="@+id/withdraw_price_tv"
+                android:id="@+id/type_and_price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -67,34 +71,31 @@
                 android:text="1.00"
                 />
             <TextView
-                android:id="@+id/name_and_account_tv"
+                android:id="@+id/name_and_type_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="#999"
-                android:text="lvjinr-15733250974"
+                android:text="刘柱-消费"
                 />
 
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="right">
+
             <TextView
-                android:id="@+id/deal_with"
-                android:layout_width="wrap_content"
+                android:id="@+id/total_income_tv"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:text="处理"
-                android:gravity="center_vertical"
-                android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:textColor="#333"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:focusable="false"
+                android:paddingTop="5dp"
+                android:gravity="right"
                 />
-        </LinearLayout>
+
 
     </LinearLayout>
-
 
 </LinearLayout>

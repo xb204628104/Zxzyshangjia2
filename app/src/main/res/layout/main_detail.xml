@@ -18,7 +18,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="15dp"/>
         <TextView
-            android:id="@+id/detail_tv_shuaxin"
+            android:id="@+id/detail_tv_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/rili"/>
         <TextView
-            android:id="@+id/detail_tv_look"
+            android:id="@+id/detail_tv_month"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000000"
@@ -66,11 +66,20 @@
         android:calendarViewShown="false"
         android:layout_width="300dp"
         android:layout_height="400dp" />
+<com.zxtyshangjia.zxzyshangjia.commen.utils.refresh.BGARefreshLayout
+    android:id="@+id/detail_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 
     <ListView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/detail_listview"></ListView>
+        android:id="@+id/detail_listview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        ></ListView>
+
+
+</com.zxtyshangjia.zxzyshangjia.commen.utils.refresh.BGARefreshLayout>
 
 </LinearLayout>

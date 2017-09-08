@@ -1,16 +1,30 @@
 package com.zxtyshangjia.zxzyshangjia.control.activity;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.zxtyshangjia.zxzyshangjia.R;
+import com.zxtyshangjia.zxzyshangjia.app.Myappalication;
 import com.zxtyshangjia.zxzyshangjia.commen.Api;
+import com.zxtyshangjia.zxzyshangjia.commen.network.HttpUtil;
+import com.zxtyshangjia.zxzyshangjia.commen.network.PostCallBack;
 import com.zxtyshangjia.zxzyshangjia.commen.utils.SpUtils;
 import com.zxtyshangjia.zxzyshangjia.commen.utils.ToastUtil;
 import com.zxtyshangjia.zxzyshangjia.commen.utils.refresh.BGANormalRefreshViewHolder;
@@ -18,10 +32,13 @@ import com.zxtyshangjia.zxzyshangjia.commen.utils.refresh.BGARefreshLayout;
 import com.zxtyshangjia.zxzyshangjia.control.adapter.WithDrawListAdapter;
 import com.zxtyshangjia.zxzyshangjia.control.bean.WithDrawListBean;
 import com.zxtyshangjia.zxzyshangjia.control.bean.WithDrawListData;
+import com.zxtyshangjia.zxzyshangjia.login.bean.BaseBean;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -36,7 +53,7 @@ import static com.zxtyshangjia.zxzyshangjia.app.Myappalication.getContext;
  * 提现记录页
  */
 
-public class WithdrawListActivity extends Activity {
+public class WithdrawListActivity extends Activity implements WithDrawListAdapter.MMCallback {
 
     /**
      * 下拉刷新 上拉加载 布局
@@ -73,6 +90,8 @@ public class WithdrawListActivity extends Activity {
 
     private String shop_id;
 
+    private String w_id;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +102,29 @@ public class WithdrawListActivity extends Activity {
         initClick();
         mWithdrawRefresh.beginRefreshing();
     }
+
+    /**
+     * 修改提现信息回调
+     */
+    private PostCallBack editBack = new PostCallBack() {
+        @Override
+        public void onSuccess(Object data) {
+            if(data != null && data instanceof BaseBean){
+                BaseBean bean = (BaseBean) data;
+                if(bean.flag.equals("success")){
+                    ToastUtil.showToast("修改成功");
+                    mWithdrawRefresh.beginRefreshing();
+                }else {
+                    ToastUtil.showToast(bean.message);
+                }
+            }
+        }
+
+        @Override
+        public void onError(int code, String msg) {
+
+        }
+    };
 
     private Handler mHandler = new Handler() {
         @Override
@@ -107,7 +149,7 @@ public class WithdrawListActivity extends Activity {
     private void initData() {
         refreshViewHolder = new BGANormalRefreshViewHolder(getContext(), true, true);
         mWithdrawRefresh.setRefreshViewHolder(refreshViewHolder);
-        withDrawListAdapter = new WithDrawListAdapter(WithdrawListActivity.this, new ArrayList<WithDrawListData>());
+        withDrawListAdapter = new WithDrawListAdapter(WithdrawListActivity.this, new ArrayList<WithDrawListData>(),this);
         mWithdrawLV.setAdapter(withDrawListAdapter);
 
     }
@@ -241,4 +283,85 @@ public class WithdrawListActivity extends Activity {
     }
 
 
+    @Override
+    public void click(View v) {
+        popWindow(v);
+
+    }
+
+    //弹出处理框
+    private void popWindow(View v){
+        View view = View.inflate(this,R.layout.zf_modify_windoew,null);
+        ImageView close = (ImageView) view.findViewById(R.id.close_window_top);
+        final EditText account = (EditText) view.findViewById(R.id.zfb_account_window_et);
+        final EditText name = (EditText) view.findViewById(R.id.zfb_name_window_et);
+        TextView makeSure = (TextView) view.findViewById(R.id.make_sure);
+        String mAccount = list.get((Integer)v.getTag()).account;
+        String mName = list.get((Integer)v.getTag()).name;
+        w_id = list.get((Integer)v.getTag()).w_id;
+        account.setText(mAccount);
+        name.setText(mName);
+        WindowManager wm = (WindowManager) Myappalication.getContext().getSystemService(Context.WINDOW_SERVICE);
+        int width = wm.getDefaultDisplay().getWidth(); //获取屏幕的宽度
+        final PopupWindow pop = new PopupWindow(view, width / 4 * 3, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //点击关闭
+                pop.dismiss();
+                backgroundAlpha(1.0f);
+
+            }
+        });
+        makeSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 //点击确定修改
+                String zh = account.getText().toString();
+                String mc = name.getText().toString();
+                if(zh.isEmpty() || mc.isEmpty()){
+                    ToastUtil.showToast("账号或者姓名不能为空");
+                }else {
+                    //修改提现的信息
+                    Map<String,String> map = new HashMap<>();
+                    map.put("w_id",w_id);
+                    map.put("account",zh);
+                    map.put("name",mc);
+                    new HttpUtil(Api.EDITWITHDRAW,map, BaseBean.class,editBack).postExecute();
+                    pop.dismiss();
+                    backgroundAlpha(1.0f);
+                }
+            }
+        });
+        pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1.0f);
+            }
+        });
+        pop.setTouchable(true);
+        pop.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+        backgroundAlpha(0.5f);
+        pop.setBackgroundDrawable(new BitmapDrawable());
+        //pop.showAsDropDown(v);
+        //在屏幕的中央显示
+        pop.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp =getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        //让窗口背景后面的任何东西变暗
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getWindow().setAttributes(lp);
+    }
 }

@@ -1,20 +1,13 @@
 package com.zxtyshangjia.zxzyshangjia.control.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.zxtyshangjia.zxzyshangjia.R;
-import com.zxtyshangjia.zxzyshangjia.app.Myappalication;
 import com.zxtyshangjia.zxzyshangjia.control.bean.WithDrawListData;
 
 import java.text.SimpleDateFormat;
@@ -25,7 +18,7 @@ import java.util.List;
  * Created by 18222 on 2017/9/7.
  */
 
-public class WithDrawListAdapter extends BaseAdapter {
+public class WithDrawListAdapter extends BaseAdapter implements View.OnClickListener {
 
 
     private Context ctx;
@@ -33,11 +26,22 @@ public class WithDrawListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private String mAccount;
     private String mName;
+    private MMCallback mCallback;
 
-    public WithDrawListAdapter(Context ctx,List<WithDrawListData> list) {
+    @Override
+    public void onClick(View v) {
+        mCallback.click(v);
+    }
+
+    public interface MMCallback {
+        public void click(View v);
+    }
+
+    public WithDrawListAdapter(Context ctx,List<WithDrawListData> list,MMCallback callback) {
         this.ctx = ctx;
         this.list = list;
         inflater = LayoutInflater.from(ctx);
+        mCallback = callback;
     }
 
     @Override
@@ -93,13 +97,10 @@ public class WithDrawListAdapter extends BaseAdapter {
         holder.mNameAndAccount.setText(item.name+"-"+item.account);
         mAccount = item.account;
         mName = item.name;
-        holder.mDealWith.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 弹出修改支付宝框
-                popWindow();
-            }
-        });
+
+        //设置点击事件
+        holder.mDealWith.setOnClickListener(this);
+        holder.mDealWith.setTag(position);
         return convertView;
     }
 
@@ -135,60 +136,6 @@ public class WithDrawListAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    //弹出处理框
-    private void popWindow(){
-        View view = View.inflate(ctx,R.layout.zf_modify_windoew,null);
-        ImageView close = (ImageView) view.findViewById(R.id.close_window_top);
-        EditText account = (EditText) view.findViewById(R.id.zfb_account_window_et);
-        EditText name = (EditText) view.findViewById(R.id.zfb_name_window_et);
-        TextView makeSure = (TextView) view.findViewById(R.id.make_sure);
-        account.setText(mAccount);
-        name.setText(mName);
-        WindowManager wm = (WindowManager) Myappalication.getContext().getSystemService(Context.WINDOW_SERVICE);
-        int width = wm.getDefaultDisplay().getWidth(); //获取屏幕的宽度
-        final PopupWindow pop = new PopupWindow(view, width / 4 * 3, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
-        makeSure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                backgroundAlpha(1.0f);
-            }
-        });
-        pop.setTouchable(true);
-        pop.setTouchInterceptor(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });
-        backgroundAlpha(0.5f);
-        pop.setBackgroundDrawable(new BitmapDrawable());
-        //pop.showAsDropDown(v);
-        //在屏幕的中央显示
-//        pop.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
-
-    }
-
-    /**
-     * 设置添加屏幕的背景透明度
-     */
-    public void backgroundAlpha(float bgAlpha) {
-//        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-//        lp.alpha = bgAlpha; //0.0-1.0
-//        //让窗口背景后面的任何东西变暗
-//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-//        getActivity().getWindow().setAttributes(lp);
-    }
 
 }
