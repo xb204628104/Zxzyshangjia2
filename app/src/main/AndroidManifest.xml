@@ -11,6 +11,37 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+
+        <!-- 高德地图key -->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="2de7fd739a9ddd38bd17c6f44b0b2ef3" />
+
+        <!-- 获取权限 -->
+        <!-- 地图包、搜索包需要的基础权限 -->
+        <!--允许程序打开网络套接字-->
+        <uses-permission android:name="android.permission.INTERNET" />
+        <!--允许程序设置内置sd卡的写权限-->
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        <!--允许程序获取网络状态-->
+        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        <!--允许程序访问WiFi网络信息-->
+        <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+        <!--允许程序读写手机状态和身份-->
+        <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+        <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
+        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+        <!--用于访问GPS定位-->
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+        <!--用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+        <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+        <!--用于读取手机当前的状态-->
+        <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+        <!--用于申请调用A-GPS模块-->
+        <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+
+
         <activity android:name=".login.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,6 +63,7 @@
         <activity android:name=".control.activity.BindAccountActivity"></activity>
         <activity android:name=".control.activity.AddAccountActivity"></activity>
         <activity android:name=".control.activity.WithdrawListActivity"></activity>
+        <activity android:name=".login.activity.GaodeSearchForActivity"></activity>
     </application>
 
 </manifest>

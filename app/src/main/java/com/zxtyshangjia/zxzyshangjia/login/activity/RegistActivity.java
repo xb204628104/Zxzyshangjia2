@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.compress.CompressConfig;
 import com.jph.takephoto.model.TImage;
@@ -30,15 +32,24 @@ import com.zxtyshangjia.zxzyshangjia.commen.network.HttpUtil;
 import com.zxtyshangjia.zxzyshangjia.commen.network.PostCallBack;
 import com.zxtyshangjia.zxzyshangjia.commen.utils.ToastUtil;
 import com.zxtyshangjia.zxzyshangjia.commen.utils.WheelViewPopwindow;
+import com.zxtyshangjia.zxzyshangjia.login.bean.AreaData;
 import com.zxtyshangjia.zxzyshangjia.login.bean.BaseBean;
+import com.zxtyshangjia.zxzyshangjia.login.bean.GetAreaBean;
 import com.zxtyshangjia.zxzyshangjia.login.bean.ShopSortBean;
 import com.zxtyshangjia.zxzyshangjia.login.bean.ShopSortData;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by LvJinrong on 2017/2/29.
@@ -47,6 +58,34 @@ import java.util.Map;
 
 public class RegistActivity  extends TakePhotoActivity  {
 
+    /**
+     *   省
+     */
+    private TextView mProvince;
+    private String mProvinceID = "";
+
+    /**
+     *  市
+     */
+    private TextView mCity;
+    private String mCityID = "";
+
+    /**
+     * 区
+     */
+    private TextView mArea;
+    private String mAreaID = "";
+    private String mAreaName;
+
+    /**
+     * 详细地址 点击事件
+     */
+    private LinearLayout mDetailAddressLL;
+
+    /**
+     *  详细地址 显示
+     */
+    private TextView mDetailAddressTV;
     /**
      * 上传图片
      */
@@ -174,9 +213,13 @@ public class RegistActivity  extends TakePhotoActivity  {
 
     private int j;
 
+    private Object object;
 
+    private GetAreaBean bean;
 
+    private ArrayList<String> mAreaList = new ArrayList<>();
 
+    private List<AreaData> list = new ArrayList<>();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.regist_activity);
@@ -224,7 +267,6 @@ public class RegistActivity  extends TakePhotoActivity  {
                 if (baseBean.flag.equals("success")) {
                     ToastUtil.showToast("信息已经发送，请注意查收");
                     changeBtnGetCode();
-
                 } else {
                     ToastUtil.showToast(baseBean.message);
                 }
@@ -264,6 +306,7 @@ public class RegistActivity  extends TakePhotoActivity  {
             ToastUtil.showToast(msg);
 
         }
+
     };
 
 
@@ -276,8 +319,6 @@ public class RegistActivity  extends TakePhotoActivity  {
                 BaseBean baseBean = (BaseBean) data;
                 if(baseBean.flag.equals("success")){
                     //验证码正确 进行注册 操作
-
-
                     Map<String,String> map = new HashMap<>();
                     map.put("account",mCallphoneNum);
                     map.put("name",mShopName);
@@ -298,9 +339,6 @@ public class RegistActivity  extends TakePhotoActivity  {
                     }
 
                     new HttpUtil(Api.SHOP_REGISTER,map,"pic",fileMap,BaseBean.class,registerBack).postExecute();
-
-
-
                 }else {
                     ToastUtil.showToast(baseBean.message);
                 }
@@ -341,6 +379,132 @@ public class RegistActivity  extends TakePhotoActivity  {
         }
     };
 
+    //获取省级
+    private void loadData(){
+        //创建okHttpClient对象
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+        //创建一个Request
+        final Request request = new Request.Builder()
+                .url(Api.GET_PEOVINCE)
+                .build();
+        //new call
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    Log.e("++++++++++++=========", String.valueOf(response));
+                    Class responseClass = GetAreaBean.class;
+                    final String res = response.body().string();
+                    Log.e("++++++++++++=========", res);
+                    object = new Gson().fromJson(res, responseClass);
+                } catch (Exception e) {
+                    Log.e("++++++++++++=======", "error");
+                }
+                if(object != null && object instanceof GetAreaBean){
+                    bean = (GetAreaBean) object;
+                    if (bean.flag.equals("success")){
+                        //获取成功
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                list.clear();
+                                mAreaList.clear();
+                                list.addAll(bean.data);
+                                for (int i = 0; i < list.size(); i++) {
+                                    mAreaList.add(list.get(i).area_name);
+                                }
+
+                                new WheelViewPopwindow(RegistActivity.this, mAreaList, mProvince, new WheelViewPopwindow.OnSuccessClick() {
+                                    @Override
+                                    public void onSuccessClick(int position, String content) {
+                                        mProvinceID = list.get(position).area_id;
+                                        mProvince.setText(list.get(position).area_name);
+                                        mCity.setText("选择市");
+                                        mArea.setText("选择区");
+                                        mCityID = "";
+                                        mAreaID = "";
+                                    }
+                                }).showPop();
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+
+    /**
+     * 获取市级回调
+     */
+    private PostCallBack cityBack = new PostCallBack() {
+        @Override
+        public void onSuccess(Object data) {
+            if(data != null && data instanceof GetAreaBean){
+                bean = (GetAreaBean) data;
+                if(bean.flag.equals("success")){
+                    //获取成功
+                    list.clear();
+                    mAreaList.clear();
+                    list.addAll(bean.data);
+                    for (int i = 0; i < list.size(); i++) {
+                        mAreaList.add(list.get(i).area_name);
+                    }
+                    new WheelViewPopwindow(RegistActivity.this, mAreaList, mCity, new WheelViewPopwindow.OnSuccessClick() {
+                        @Override
+                        public void onSuccessClick(int position, String content) {
+                            mCityID = list.get(position).area_id;
+                            mCity.setText(list.get(position).area_name);
+                            mArea.setText("选择区");
+                            mAreaID = "";
+                        }
+                    }).showPop();
+
+                }
+            }
+        }
+
+        @Override
+        public void onError(int code, String msg) {
+
+        }
+    };
+
+    //获取区级回调
+    private PostCallBack areaBack = new PostCallBack() {
+        @Override
+        public void onSuccess(Object data) {
+            if(data != null && data instanceof GetAreaBean){
+                bean = (GetAreaBean) data;
+                if (bean.flag.equals("success") && bean.data!=null){
+                    //获取成功
+                    list.clear();
+                    mAreaList.clear();
+                    list.addAll(bean.data);
+                    for (int i = 0; i < list.size(); i++) {
+                        mAreaList.add(list.get(i).area_name);
+                    }
+                    new WheelViewPopwindow(RegistActivity.this, mAreaList, mArea, new WheelViewPopwindow.OnSuccessClick() {
+                        @Override
+                        public void onSuccessClick(int position, String content) {
+                            mAreaID = list.get(position).area_id;
+                            mArea.setText(list.get(position).area_name);
+                            mAreaName = list.get(position).area_name;
+                        }
+                    }).showPop();
+                }
+            }
+        }
+
+        @Override
+        public void onError(int code, String msg) {
+
+        }
+    };
 
     //点击事件
     private View.OnClickListener mClickListener = new View.OnClickListener() {
@@ -369,7 +533,6 @@ public class RegistActivity  extends TakePhotoActivity  {
 
                 }
 
-
             } else if (v.getId() == mShopSortTV.getId()) {
                 //商铺分类 点击事件 点击分类 底部弹出选项卡
                 Map<String, String> map = new HashMap<>();
@@ -380,17 +543,16 @@ public class RegistActivity  extends TakePhotoActivity  {
                 picNum = 1;
                 showTakePhoto();
 
-            }else if(v.getId() == picIV2.getId()){
+            } else if(v.getId() == picIV2.getId()){
                 //点击第二张图  同上
                 picNum = 2;
                 showTakePhoto();
 
-            }else if(v.getId() == picIV3.getId()){
+            } else if(v.getId() == picIV3.getId()){
                 //点击第三张图
                 picNum = 3;
                 showTakePhoto();
-            }
-            else if (v.getId() == mRegistSubmitTV.getId()) {
+            } else if (v.getId() == mRegistSubmitTV.getId()) {
                 //注册 点击注册 数据检验 验证验证码是否准确 调用注册接口
                 mCallphoneNum = mCallphoneNumET.getText().toString();   //手机号
                 mShopName = mShopNameET.getText().toString();    //店名 商家的名称
@@ -446,11 +608,46 @@ public class RegistActivity  extends TakePhotoActivity  {
                 map.put("port","1");
                 new HttpUtil(Api.ISSURECODE,map,BaseBean.class,isSureCodeBack).postExecute();
 
+            } else if (v.getId() == mProvince.getId()) {
+                //选择省
+                loadData();
+            }else if (v.getId() == mCity.getId()) {
+                //选择市
+                Map<String,String> map = new HashMap<>();
+                map.put("province",mProvinceID);
+                new HttpUtil(Api.GET_CITY,map,GetAreaBean.class,cityBack).postExecute();
+
+            }else if (v.getId() == mArea.getId()) {
+                //选择区
+                Map<String,String> map = new HashMap<>();
+                map.put("city",mCityID);
+                new HttpUtil(Api.GET_AREA,map,GetAreaBean.class,areaBack).postExecute();
+
+            }else if (v.getId() == mDetailAddressLL.getId()) {
+                //跳转高德地图 选择详细地址
+                mShopSort = mShopSortTV.getText().toString();   //分类
+                if(mProvinceID.equals("") || mCityID.equals("") || mAreaID.equals("") || mShopSort.equals("")){
+                    ToastUtil.showToast("请先选择省市区及分类");
+                }else {
+
+                    Intent intent = new Intent(RegistActivity.this,GaodeSearchForActivity.class);
+                    intent.putExtra("city",mAreaName);
+                    intent.putExtra("deepType",mShopSort);
+                    startActivityForResult(intent,0);
+                }
             }
-
-
         }
     };
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        String change01 = data.getStringExtra("change01");
+        String change02 = data.getStringExtra("change02");
+        // 根据上面发送过去的请求吗来区别
+
+    }
+
+
+
 
 
     private void initView() {
@@ -469,6 +666,12 @@ public class RegistActivity  extends TakePhotoActivity  {
         picIV2 = (ImageView) findViewById(R.id.picture_iv2);
         picIV3 = (ImageView) findViewById(R.id.picture_iv3);
         mVerificationCodeET = (EditText) findViewById(R.id.verification_code_et);
+
+        mProvince = (TextView) findViewById(R.id.address_province);
+        mCity = (TextView) findViewById(R.id.address_city);
+        mArea = (TextView) findViewById(R.id.address_area);
+        mDetailAddressLL = (LinearLayout) findViewById(R.id.address_detail_ll);
+        mDetailAddressTV = (TextView) findViewById(R.id.address_detail_tv);
     }
 
     private void initData() {
@@ -487,6 +690,10 @@ public class RegistActivity  extends TakePhotoActivity  {
         picIV1.setOnClickListener(mClickListener);
         picIV2.setOnClickListener(mClickListener);
         picIV3.setOnClickListener(mClickListener);
+        mProvince.setOnClickListener(mClickListener);
+        mCity.setOnClickListener(mClickListener);
+        mArea.setOnClickListener(mClickListener);
+        mDetailAddressLL.setOnClickListener(mClickListener);
 
     }
 

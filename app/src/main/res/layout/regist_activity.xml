@@ -21,6 +21,17 @@
             android:textSize="18sp" />
     </LinearLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,7 +48,7 @@
             android:paddingTop="10dp"
             android:text="手机号"
             android:textColor="#333"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/callphone_num_et"
@@ -49,7 +60,7 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:textColor="#333"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
 
     </LinearLayout>
@@ -75,7 +86,7 @@
             android:paddingTop="10dp"
             android:text="图形码"
             android:textColor="#333"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/graphic_code_et"
@@ -87,7 +98,7 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:textColor="#333"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -127,7 +138,7 @@
             android:paddingTop="10dp"
             android:text="验证码"
             android:textColor="#333"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/verification_code_et"
@@ -139,7 +150,7 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:textColor="#333"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/verification_code_tv"
@@ -150,7 +161,7 @@
             android:paddingTop="10dp"
             android:text="获取验证码"
             android:textColor="#64afff"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
 
     </LinearLayout>
@@ -176,7 +187,7 @@
             android:paddingTop="10dp"
             android:text="密码"
             android:textColor="#333"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/password_et"
@@ -188,7 +199,7 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:textColor="#333"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
 
     </LinearLayout>
@@ -212,7 +223,7 @@
             android:paddingTop="10dp"
             android:text="确认密码"
             android:textColor="#333"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/confirm_pd_et"
@@ -224,7 +235,7 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:textColor="#333"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
 
     </LinearLayout>
@@ -250,7 +261,7 @@
             android:paddingTop="10dp"
             android:text="商家名"
             android:textColor="#333"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/shop_name_et"
@@ -262,7 +273,7 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:textColor="#333"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
 
     </LinearLayout>
@@ -287,18 +298,17 @@
             android:paddingTop="10dp"
             android:text="分类"
             android:textColor="#333"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/sort_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:background="@null"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:textColor="#333"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -338,7 +348,7 @@
             android:paddingTop="10dp"
             android:text="推荐人"
             android:textColor="#333"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/recommend_num_et"
@@ -350,10 +360,109 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:textColor="#333"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
 
     </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="10dp"
+                android:text="地址"
+                android:textColor="#333"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/address_province"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="选择省"
+                android:textColor="#333"
+                android:textSize="14sp"
+                android:gravity="center_horizontal"
+                />
+            <TextView
+                android:id="@+id/address_city"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="选择市"
+                android:textColor="#333"
+                android:textSize="14sp"
+                android:gravity="center_horizontal"
+                />
+            <TextView
+                android:id="@+id/address_area"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="选择区"
+                android:textColor="#333"
+                android:textSize="14sp"
+                android:gravity="center_horizontal"
+                />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/address_detail_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="10dp"
+                android:text="详细地址"
+                android:textColor="#333"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/address_detail_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:background="@null"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:textColor="#333"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="right">
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/back" />
+            </LinearLayout>
+
+
+        </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -438,6 +547,10 @@
         android:gravity="center"
         android:text="注册"
         android:textColor="#ffffff" />
+
+    </LinearLayout>
+
+    </ScrollView>
 
 
 </LinearLayout>

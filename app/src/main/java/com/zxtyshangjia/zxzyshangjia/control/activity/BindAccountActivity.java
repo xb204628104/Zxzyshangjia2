@@ -85,6 +85,7 @@ public class BindAccountActivity extends Activity {
                 //点击记录当钱点击账号的坐标  跳转提现页面 在提现页面显示该坐标下的账号信息
                 SpUtils.getInstance(BindAccountActivity.this).save("index",position);
                 startActivity(new Intent(BindAccountActivity.this,WithdrawActivity.class));
+
             }
         });
 

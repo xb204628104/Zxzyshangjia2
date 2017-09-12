@@ -143,5 +143,21 @@ public class Api {
      */
     public static final String EDITWITHDRAW = BASE_URL + "/Pool/editWith";
 
+    /**
+     * 获取省级
+     */
+    public static final String GET_PEOVINCE = BASE_URL + "/Merchant/getProvince";
+
+    /**
+     * 获取市级
+     */
+    public static final String GET_CITY = BASE_URL + "/Merchant/getCity";
+
+    /**
+     * 获取区级
+     */
+    public static final String GET_AREA = BASE_URL + "/Merchant/getArea";
+
+
 
 }
